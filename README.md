@@ -5,7 +5,8 @@ Auto Fishing Script
 	Install Python
 
 	Open the command prompt and run
-	
+
+		pip install Pillow
 		pip install pywin32
 		pip install keyboard
 		pip install pyautogui
