@@ -4,6 +4,8 @@ Auto Fishing Script
 
 	Install Python
 
+ 		https://www.python.org/downloads
+
 	Open the command prompt and run
 
 		pip install Pillow
