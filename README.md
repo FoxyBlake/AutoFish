@@ -8,7 +8,7 @@ For Fish.py, only use Fish2.py if you know what you are doing
 
  		https://www.python.org/downloads
 
-	Open the command prompt and run
+	Open the command prompt as administrator and run
 
 		pip install Pillow
 		pip install pywin32
