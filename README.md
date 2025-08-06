@@ -1,8 +1,10 @@
 Auto Fishing Script
 
 1. Set Up
-Install Python
-Open the command prompt and run
+
+	Install Python
+
+	Open the command prompt and run
 	
 		pip install pywin32
 		pip install keyboard
