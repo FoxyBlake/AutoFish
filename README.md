@@ -1,5 +1,7 @@
 Auto Fishing Script
 
+For Fish.py, only use Fish2.py if you know what you are doing
+
 1. Set Up
 
 	Install Python
