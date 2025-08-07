@@ -9,9 +9,7 @@ import cv2
 import win32api, win32con
 import time
 
-#bar Pos 1 X:   930     Y: 1100
-#bar Pos 2 X:   1630     Y: 1100
-#Fishing Icon X: 1307 Y: 1268 RGB: (147, 111,  74)
+
 
 #Functions
 
@@ -27,13 +25,10 @@ def isGreyPixelPresent(region_start_x, y, width):
     img = ImageGrab.grab(bbox=(region_start_x, y, region_start_x + width, y + 1))
     img_np = np.array(img)  # shape: (1, width, 3)
     
-    # Convert RGB to BGR for OpenCV
-    img_cv = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
-    
     # Extract blue channel
-    blueChannel = img_cv[0, ::3, 0]  # OpenCV uses BGR order
+    blueChannel = img_np[0, ::3, 2]
     
-       # Boolean mask: green values in desired range
+    # Boolean mask: green values in desired range
     blueMatch = (blueChannel < 160)
     
     return np.any(blueMatch)
@@ -63,6 +58,10 @@ def whereGreenPixelPresent(region_start_x, y, width):
 random_integer = random.randint(1, 10)
 found = False
 
+#Config Variables
+failSafe = 10 #How much of a gap after the edge of the green should it wait till it checks
+clicksPerCycle = 5 #How many times should it click per Cycle
+
 #Run Loop, Press Q to end
 while keyboard.is_pressed('q') == False:
     
@@ -78,9 +77,10 @@ while keyboard.is_pressed('q') == False:
         if not found: #If greenbar hasnt been found yet then find it
             greenStart, greenEnd = whereGreenPixelPresent(933, 1100, 694) #detect where the green bar is
             if greenStart is not None:
+                greenEnd = greenEnd - greenStart
                 found = True #change found to true if green bar is found
-        elif isGreyPixelPresent(greenStart+8, 1080, greenEnd - greenStart-8):#detect if the grey pixel is in the range of where the green bar is
-            for i in range(8): #Raise or lowerer depending on how rare of a fish you are going for(Lower for rarer fish)
+        elif isGreyPixelPresent(greenStart + failSafe, 1080, greenEnd - failSafe):#detect if the grey pixel is in the range of where the green bar is
+            for i in range(clicksPerCycle):
                 win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
                 time.sleep(0.001)  # 1 ms (optional)
                 win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
